@@ -32,7 +32,7 @@ class Todo {
 				<button class="todo-complete"></button>
             </div>
         `);
-
+        li.setAttribute('data-key', todo.key);
         if(todo.completed) {
             this.todoCompleted.append(li);
         } else {
@@ -75,18 +75,15 @@ class Todo {
     }
 
     completedItem(target) {
-        let dataArr = [...this.todoData],
-            i = 0,
-            newTodo = {};
-        const completeButtons = document.querySelectorAll('.todo-complete');
-        completeButtons.forEach((elem, index)=>{
-            if (elem===target) {
-                i = index;
+        const parent = target.parentNode.parentNode,
+            key = parent.dataset.key;
+
+        this.todoData.forEach((elem, index) => {
+            if (elem.key === key) {
+                elem.completed = !elem.completed;
             }
         });
-        newTodo = this.todoData.get(dataArr[i][0]);
-        newTodo.completed = !newTodo.completed;
-        this.todoData.set(dataArr[i][0], newTodo);
+        
         this.render();
     }
 
